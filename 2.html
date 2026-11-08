@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adelino Magalhães- Currículo</title>
+<style>
+  body { font-family: Arial, sans-serif; background-color: #000000; line-height: 1.6; color: #0cb61a; margin: 0; }
+  header { display: flex; background: #000000; padding: 1rem; text-align: center; border-bottom: 1px solid #12e60b; }
+  header a { color: #12e60b; margin: 0 1rem; text-decoration: none; font-weight: bold; cursor: pointer; }
+  header a:hover, header a.ativo { color: #158107; }
+  main { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; min-height: 60vh; }
+  h1, h2, h3 { color: #12e60b; }
+
+  /* Quem sou eu */
+  .perfil { display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap; }
+  .perfil img { width: 220px; border: 2px solid #12e60b; }
+  .perfil div { flex: 1; min-width: 250px; }
+
+  /* Cards */
+  .cards { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .card { flex: 1; min-width: 200px; border: 2px solid #12e60b; padding: 2rem 1rem; text-align: center; }
+  .clicavel { cursor: pointer; }
+  .clicavel:hover { background: #0a1f0c; }
+
+  /* Modal */
+  .fundo { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,.85);
+           display: flex; align-items: center; justify-content: center; }
+  .modal { background: #000; border: 2px solid #12e60b; padding: 2rem; max-width: 400px; }
+  .modal button { background: #12e60b; border: 0; padding: .5rem 1rem; font-weight: bold; cursor: pointer; }
+
+  footer { background: #000000; color: #12e60b; text-align: center; padding: 1.5rem; border-top: 1px solid #12e60b; }
+  footer a { display: inline-block; background: #12e60b; color: #000207; width: 2.5rem; line-height: 2.5rem;
+             border-radius: 50%; margin: 0 .3rem; text-decoration: none; font-weight: bold; }
+  footer a:hover { background: #ffc93c; }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <a :class="{ ativo: vista === 'quem' }" @click="vista = 'quem'">Quem sou eu?</a>
+    <a :class="{ ativo: vista === 'faco' }" @click="vista = 'faco'">O que faço?</a>
+    <a :class="{ ativo: vista === 'hobbies' }" @click="vista = 'hobbies'">Hobbies</a>
+  </header>
+
+  <main>
+    <!-- Vista 1: Quem sou eu? -->
+    <div v-if="vista === 'quem'">
+      <h2>Quem sou eu?</h2>
+      <div class="perfil">
+        <img src="foto.png" alt="Fotografia">
+        <div>
+          <ul>
+            <li><b>Nome:</b> {{ nome }}</li>
+            <li><b>Escolaridade:</b> {{ escolaridade }}</li>
+          </ul>
+          <p>{{ sobreMim }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vista 2: O que faço? -->
+    <div v-if="vista === 'faco'">
+      <h2>O que faço?</h2>
+      <div class="cards">
+        <div class="card clicavel" v-for="item in faco" @click="aberto = item">
+          <h3>{{ item.titulo }}</h3>
+          <p>Clica para saber mais</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vista 3: Hobbies -->
+    <div v-if="vista === 'hobbies'">
+      <h2>Hobbies</h2>
+      <div class="cards">
+        <div class="card" v-for="item in hobbies">
+          <h3>{{ item }}</h3>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal -->
+  <div class="fundo" v-if="aberto" @click.self="aberto = null">
+    <div class="modal">
+      <h3>{{ aberto.titulo }}</h3>
+      <p>{{ aberto.texto }}</p>
+      <button @click="aberto = null">Fechar</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>Redes sociais</p>
+    <a v-for="r in redes" :href="r.url" :title="r.nome" target="_blank">{{ r.sigla }}</a>
+  </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@3.4.21/dist/vue.global.prod.js"></script>
+<script>
+  Vue.createApp({
+    data() {
+      return {
+        vista: "quem",
+        aberto: null,
+        nome: "Adelino Magalhães",
+        escolaridade: "Tecnologias Multimédia UTAD",
+        sobreMim: "A minha área de conforto é a programação e o desenvolvimento de aplicações e jogos. Considero-me uma pessoa compreensiva, consistente e persistente. Busco experiência, melhoria e aprendizagem no enorme e entusiasmante mundo da programação.",
+        faco: [
+          { titulo: "Programação de jogos", texto: "Desenvolvo jogos 3D em Unity com C#." },
+          { titulo: "Modelação 3D", texto: "Modelação de personagens 3D no Blender" },
+          { titulo: "Desenvolvimento web", texto: "Desenvolvimento com Javascript, HTML, CSS, PHP" }
+        ],
+        hobbies: ["Jogos", "Animação 3D", "Futebol"],
+        redes: [
+          { nome: "LinkedIn", sigla: "in", url: "https://www.linkedin.com/in/adelino-magalh%C3%A3es-dev/" },
+          { nome: "GitHub", sigla: "gh", url: "https://github.com/devadelino" }
+        ]
+      };
+    }
+  }).mount("#app");
+</script>
+</body>
+</html>
